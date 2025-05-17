@@ -4,90 +4,60 @@
     <script src="https://aframe.io/releases/1.4.0/aframe.min.js"></script>
     <script src="https://raw.githack.com/AR-js-org/AR.js/master/aframe/build/aframe-ar.js"></script>
     <script>
-        AFRAME.registerComponent('animation-handler', {
-            init: function () {
-                this.el.addEventListener('model-loaded', () => {
-                    console.log('Model loaded');
-                    const model = this.el.getObject3D('mesh');
-                    if (model) {
-                        console.log('Found model, checking animations');
-                        // Debug model properties
-                        console.log('Model position:', model.position);
-                        console.log('Model scale:', model.scale);
-                        console.log('Model visible:', model.visible);
-                        console.log('Model children:', model.children.length);
+      AFRAME.registerComponent('animation-handler', {
+          init: function () {
+              this.el.addEventListener('model-loaded', () => {
+                  console.log('Model loaded');
+                  const model = this.el.getObject3D('mesh');
+                  if (model) {
+                      console.log('Found model, checking animations');
+                      if (model.animations && model.animations.length > 0) {
+                          console.log('Found animations:', model.animations.length);
+                          
+                          // Create animation mixer
+                          const mixer = new THREE.AnimationMixer(model);
+                          
+                          // Play all animations
+                          model.animations.forEach(animation => {
+                              console.log('Playing animation:', animation.name);
+                              const action = mixer.clipAction(animation);
+                              action.setLoop(THREE.LoopRepeat);
+                              action.clampWhenFinished = false;
+                              action.enabled = true;
+                              action.play();
+                          });
 
-                        // Make sure model is visible
-                        model.visible = true;
-                        model.traverse((node) => {
-                            if (node.isMesh) {
-                                console.log('Found mesh:', node.name);
-                                node.visible = true;
-                                node.material.visible = true;
-                                if (node.material.map) {
-                                    console.log('Material has texture');
-                                }
-                            }
-                        });
-
-                        if (model.animations && model.animations.length > 0) {
-                            console.log('Found animations:', model.animations.length);
-                            
-                            // Create animation mixer
-                            const mixer = new THREE.AnimationMixer(model);
-                            
-                            // Find and play only the idle animation
-                            const idleAnimation = model.animations.find(anim => anim.name === 'Idle_C');
-                            if (idleAnimation) {
-                                console.log('Playing idle animation');
-                                const action = mixer.clipAction(idleAnimation);
-                                action.setLoop(THREE.LoopRepeat);
-                                action.clampWhenFinished = false;
-                                action.enabled = true;
-                                action.play();
-                            }
-
-                            // Store mixer for update
-                            this.mixer = mixer;
-                            
-                            // Set animation speed
-                            this.mixer.timeScale = 1.0;
-
-                            // Adjust model position and scale
-                            model.position.set(0, 0, 0);
-                            model.scale.set(0.1, 0.1, 0.1);
-                        } else {
-                            console.log('No animations found in model');
-                        }
-                    } else {
-                        console.error('Model not found in getObject3D');
-                    }
-                });
-
-                // Add error handler
-                this.el.addEventListener('model-error', (error) => {
-                    console.error('Error loading model:', error);
-                });
-            },
-            tick: function (time, deltaTime) {
-                if (this.mixer) {
-                    this.mixer.update(deltaTime / 1000);
-                }
-            }
-        });
-    </script>
+                          // Store mixer for update
+                          this.mixer = mixer;
+                          
+                          // Set animation speed (adjust this value to control speed)
+                          this.mixer.timeScale = 1.0;
+                      } else {
+                          console.log('No animations found in model');
+                      }
+                  }
+              });
+          },
+          tick: function (time, deltaTime) {
+              if (this.mixer) {
+                  // Update the animation mixer with the correct time delta
+                  this.mixer.update(deltaTime / 1000);
+              }
+          }
+      });
+  </script>
 </head>
 <body style='margin: 0; overflow: hidden;'>
     <a-scene embedded arjs debug>
         <a-marker preset="hiro" debug>
             <!-- Load the animated GLB model -->
             <a-entity
-                position="0 0.5 0"
-                rotation="0 0 0"
-                scale="0.1 0.1 0.1"
-                gltf-model="assets/source/Venom.glb"
-                animation-handler>
-            </a-entity>
+            position="0 0 0"
+            rotation="0 0 0"
+            scale="1 1 1"
+            gltf-model="assets/source/Venom.glb"
+            animation-handler>
+        </a-entity>
         </a-marker>
         <a-entity camera></a-entity>
     </a-scene>
