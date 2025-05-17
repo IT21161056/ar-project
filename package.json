@@ -1,12 +1,8 @@
 {
   "name": "ar-project",
   "version": "1.0.0",
-  "description": "AR Project with simple server",
-  "main": "server.js",
+  "description": "AR Project with static hosting",
   "scripts": {
-    "start": "node server.js"
-  },
-  "dependencies": {
-    "express": "^4.18.2"
+    "build": "echo 'No build step required'"
   }
 } 
