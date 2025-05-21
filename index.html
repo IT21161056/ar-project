@@ -31,6 +31,7 @@
         <a-asset-item id="spinoceratopsModel" src="models/spinoceratops.glb"></a-asset-item>
         <a-asset-item id="macrothoraxModel" src="models/macrothorax.glb"></a-asset-item>
         <a-asset-item id="palmTreeModel" src="models/realistic_palm_tree_4_free.glb"></a-asset-item>
+        <a-asset-item id="mammothModel" src="models/mammoth.glb"></a-asset-item>
       </a-assets>
 
       <!-- Dino Marker -->
@@ -44,6 +45,25 @@
       >
         <a-entity
           gltf-model="#dinoModel"
+          position="0 0 0"
+          scale="0.5 0.5 0.5"
+          class="clickable"
+          gesture-handler
+        ></a-entity>
+      </a-marker>
+
+      <!-- Mammoth Marker -->
+      <a-marker
+        type="pattern"
+        url="markers/pattern-mammoth.patt"
+        raycaster="objects: .clickable"
+        emitevents="true"
+        cursor="fuse: false; rayOrigin: mouse;"
+        id="markerMammoth"
+        animation-mixer
+      >
+        <a-entity
+          gltf-model="#mammothModel"
           position="0 0 0"
           scale="0.5 0.5 0.5"
           class="clickable"
