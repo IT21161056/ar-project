@@ -1,6 +1,18 @@
-# Assignment 3 - Mixed Reality
+✅ Option 1: Using gltf-transform (Recommended)
+Step 1: Install gltf-transform CLI
+bash
+Copy
+Edit
+npm install -g @gltf-transform/cli
+Step 2: Combine to .glb
+bash
+Copy
+Edit
+gltf-transform copy scene.gltf scene.glb
+This will:
 
-## 🎯 Objective
+Embed the scene.bin
 
-- Detect image markers using AR technology.
-- Display 3D objects based on a selected scenery
+Embed all textures
+
+Output a single .glb file
