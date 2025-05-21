@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Gesture Interactions - A-Frame & AR.js</title>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <link rel="stylesheet" href="styles.css">
+
+    <script src="https://aframe.io/releases/1.0.4/aframe.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/gh/AR-js-org/AR.js@3.3.2/aframe/build/aframe-ar.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/gh/c-frame/aframe-extras@7.5.4/dist/aframe-extras.min.js"></script>
+    <script src="//cdn.8thwall.com/web/aframe/aframe-extras-7.2.0.min.js"></script>
+
+    <script src="scripts/gesture-detector.js"></script>
+    <script src="scripts/gesture-handler.js"></script>
+  </head>
+
+  <body>
+    <a-scene
+      embedded
+      arjs="trackingMethod: best; sourceType: webcam;"
+      renderer="logarithmicDepthBuffer: true;"
+      vr-mode-ui="enabled: false"
+      gesture-detector
+      id="scene"
+    >
+      <!-- Assets -->
+      <a-assets>
+        <a-asset-item id="dinoModel" src="models/momma_dino_remake.glb"></a-asset-item>
+        <a-asset-item id="quetzalcoatlusModel" src="models/quetzalcoatlus.glb"></a-asset-item>
+        <a-asset-item id="spinoceratopsModel" src="models/spinoceratops.glb"></a-asset-item>
+        <a-asset-item id="macrothoraxModel" src="models/macrothorax.glb"></a-asset-item>
+        <a-asset-item id="palmTreeModel" src="models/realistic_palm_tree_4_free.glb"></a-asset-item>
+      </a-assets>
+
+      <!-- Dino Marker -->
+      <a-marker
+        type="pattern"
+        url="markers/pattern-dino.patt"
+        raycaster="objects: .clickable"
+        emitevents="true"
+        cursor="fuse: false; rayOrigin: mouse;"
+        id="markerDino"
+      >
+        <a-entity
+          gltf-model="#dinoModel"
+          position="0 0 0"
+          scale="0.5 0.5 0.5"
+          class="clickable"
+          gesture-handler
+        ></a-entity>
+      </a-marker>
+
+      <!-- Quetzalcoatlus Marker -->
+      <a-marker
+        type="pattern"
+        url="markers/pattern-quetzalcoatlus.patt"
+        raycaster="objects: .clickable"
+        emitevents="true"
+        cursor="fuse: false; rayOrigin: mouse;"
+        id="markerQuetzalcoatlus"
+        animation-mixer
+      >
+        <a-entity
+          gltf-model="#quetzalcoatlusModel"
+          position="0 0 0"
+          scale="0.5 0.5 0.5"
+          class="clickable"
+          gesture-handler
+        ></a-entity>
+      </a-marker>
+
+      <!-- Spinoceratops Marker -->
+      <a-marker
+        type="pattern"
+        url="markers/pattern-spinoceratops.patt"
+        raycaster="objects: .clickable"
+        emitevents="true"
+        cursor="fuse: false; rayOrigin: mouse;"
+        id="markerSpinoceratops"
+        animation-mixer
+      >
+        <a-entity
+          gltf-model="#spinoceratopsModel"
+          position="0 0 0"
+          scale="0.5 0.5 0.5"
+          class="clickable"
+          gesture-handler
+        ></a-entity>
+      </a-marker>
+
+      <!-- Macrothorax Marker -->
+      <a-marker
+        type="pattern"
+        url="markers/pattern-macrothorax.patt"
+        raycaster="objects: .clickable"
+        emitevents="true"
+        cursor="fuse: false; rayOrigin: mouse;"
+        id="markerMacrothorax"
+        animation-mixer
+      >
+        <a-entity
+          gltf-model="#macrothoraxModel"
+          position="0 0 0"
+          scale="0.5 0.5 0.5"
+          class="clickable"
+          gesture-handler
+        ></a-entity>
+      </a-marker>
+
+      <!-- Palm Tree Marker -->
+      <a-marker
+        type="pattern"
+        url="markers/pattern-palm-tree.patt"
+        raycaster="objects: .clickable"
+        emitevents="true"
+        cursor="fuse: false; rayOrigin: mouse;"
+        id="markerPalmTree"
+      >
+        <a-entity
+          gltf-model="#palmTreeModel"
+          position="0 0 0"
+          scale="0.05 0.05 0.05"
+          class="clickable"
+          gesture-handler
+        ></a-entity>
+      </a-marker>
+
+      <!-- Camera -->
+      <a-entity camera></a-entity>
+    </a-scene>
+  </body>
+</html>
