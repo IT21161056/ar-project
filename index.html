@@ -10,12 +10,49 @@
     <script src="https://cdn.jsdelivr.net/gh/AR-js-org/AR.js@3.3.2/aframe/build/aframe-ar.min.js"></script>
     <script src="https://cdn.jsdelivr.net/gh/c-frame/aframe-extras@7.5.4/dist/aframe-extras.min.js"></script>
     <script src="//cdn.8thwall.com/web/aframe/aframe-extras-7.2.0.min.js"></script>
+    <script src="https://unpkg.com/aframe-look-at-component/dist/aframe-look-at-component.min.js"></script>
 
     <script src="scripts/gesture-detector.js"></script>
     <script src="scripts/gesture-handler.js"></script>
   </head>
 
   <body>
+    <div id="loading-screen" style="
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: #000;
+      z-index: 9999;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      font-family: sans-serif;
+      color: white;
+      font-size: 18px;
+    ">
+      <div>Loading Assets...</div>
+      <div id="progress-container" style="
+        margin-top: 20px;
+        width: 80%;
+        max-width: 400px;
+        height: 10px;
+        background-color: #333;
+        border-radius: 5px;
+        overflow: hidden;
+      ">
+        <div id="progress-bar" style="
+          width: 0%;
+          height: 100%;
+          background-color: #4caf50;
+          transition: width 0.3s ease;
+        "></div>
+      </div>
+    </div>
+
+
     <a-scene
       embedded
       arjs="trackingMethod: best; sourceType: webcam;"
@@ -69,6 +106,18 @@
           class="clickable"
           gesture-handler
         ></a-entity>
+
+        <!-- TEXT LABEL -->
+        <a-text
+          value="Mammoth"
+          position="0 -1 0"
+          rotation="0 180 0"
+          align="center"
+          width="3"
+          color="white"
+          side="double"
+          look-at="[camera]"
+        ></a-text>
       </a-marker>
 
       <!-- Quetzalcoatlus Marker -->
@@ -88,6 +137,18 @@
           class="clickable"
           gesture-handler
         ></a-entity>
+
+         <!-- TEXT LABEL -->
+         <a-text
+         value="Quetzalcoatlus"
+         position="0 -1 0"
+         rotation="0 180 0"
+         align="center"
+         width="3"
+         color="white"
+         side="double"
+         look-at="[camera]"
+       ></a-text>
       </a-marker>
 
       <!-- Spinoceratops Marker -->
@@ -107,6 +168,18 @@
           class="clickable"
           gesture-handler
         ></a-entity>
+
+        <!-- TEXT LABEL -->
+        <a-text
+          value="Spinoceratops"
+          position="0 -1 0"
+          rotation="0 180 0"
+          align="center"
+          width="3"
+          color="white"
+          side="double"
+          look-at="[camera]"
+        ></a-text>
       </a-marker>
 
       <!-- Macrothorax Marker -->
@@ -126,6 +199,18 @@
           class="clickable"
           gesture-handler
         ></a-entity>
+
+        <!-- TEXT LABEL -->
+        <a-text
+          value="Macrothorax"
+          position="0 -1 0"
+          rotation="0 180 0"
+          align="center"
+          width="3"
+          color="white"
+          side="double"
+          look-at="[camera]"
+        ></a-text>
       </a-marker>
 
       <!-- Palm Tree Marker -->
@@ -149,5 +234,38 @@
       <!-- Camera -->
       <a-entity camera></a-entity>
     </a-scene>
+
+    <script>
+      window.addEventListener('DOMContentLoaded', () => {
+        const loadingScreen = document.getElementById('loading-screen');
+        const progressBar = document.getElementById('progress-bar');
+        const assetItems = document.querySelectorAll('a-asset-item');
+    
+        let loadedItems = 0;
+        const totalItems = assetItems.length;
+    
+        if (totalItems === 0) {
+          loadingScreen.style.display = 'none';
+          return;
+        }
+    
+        assetItems.forEach((item) => {
+          item.addEventListener('loaded', () => {
+            loadedItems++;
+            const percent = Math.floor((loadedItems / totalItems) * 100);
+            progressBar.style.width = `${percent}%`;
+    
+            if (loadedItems === totalItems) {
+              setTimeout(() => {
+                loadingScreen.style.display = 'none';
+              }, 300); // Optional small delay
+            }
+          });
+        });
+      });
+    </script>
+    
+    
+    
   </body>
 </html>
